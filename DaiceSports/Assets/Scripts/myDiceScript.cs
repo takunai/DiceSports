@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class myDiceScript : MonoBehaviour
@@ -21,6 +22,9 @@ public class myDiceScript : MonoBehaviour
             Random.Range(-10f, 10f),
             Random.Range(-10f, 10f)
         );
+
+        // 15秒後にMainSceneに移動
+        StartCoroutine(WaitAndLoadMainScene(15f));
     }
 
     void Update()
@@ -70,6 +74,15 @@ public class myDiceScript : MonoBehaviour
             }
 
             Debug.Log("出た目は " + result + " です");
+
+            // GameManagerにダイスの目を保存
+            GameManager.instance.diceResult = result;
         }
+    }
+
+    IEnumerator WaitAndLoadMainScene(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        SceneManager.LoadScene("MainScene");
     }
 }
